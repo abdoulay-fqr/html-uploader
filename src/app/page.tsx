@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import styles from './page.module.css';
 
 interface HtmlFile {
@@ -22,8 +23,7 @@ export default function Home() {
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
   const [uploadingFileName, setUploadingFileName] = useState<string>('');
 
-  // Preview States
-  const [previewFile, setPreviewFile] = useState<HtmlFile | null>(null);
+
 
   // Delete States
   const [deleteFile, setDeleteFile] = useState<HtmlFile | null>(null);
@@ -324,11 +324,12 @@ export default function Home() {
                   <div className={styles.cardFooter}>
                     <span className={styles.fileDate}>{formatDate(file.uploadedAt)}</span>
                     <div className={styles.actions}>
-                      <button 
-                        onClick={() => setPreviewFile(file)} 
+                      <Link 
+                        href={`/view?url=${encodeURIComponent(file.url)}&name=${encodeURIComponent(file.name)}`}
                         className={`${styles.btn} ${styles.btnPrimary}`}
-                        title="Open iframe preview"
+                        title="Open preview page"
                         id={`open-btn-${file.name}`}
+                        style={{ textDecoration: 'none' }}
                       >
                         {/* Eye Icon */}
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -336,7 +337,7 @@ export default function Home() {
                           <circle cx="12" cy="12" r="3"/>
                         </svg>
                         Open
-                      </button>
+                      </Link>
                       <button 
                         onClick={() => {
                           setDeleteFile(file);
@@ -365,35 +366,7 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Fullscreen Iframe Preview Lightbox */}
-      {previewFile && (
-        <div className={styles.overlay} onClick={() => setPreviewFile(null)}>
-          <div className={styles.previewContainer} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.previewHeader}>
-              <h3 className={styles.previewTitle}>
-                <span className={styles.htmlIcon} style={{ fontSize: '0.65rem', width: '28px', height: '28px' }}>HTML</span>
-                {previewFile.name}
-              </h3>
-              <button 
-                onClick={() => setPreviewFile(null)} 
-                className={styles.previewClose}
-                title="Close Preview"
-                id="close-preview-modal"
-              >
-                &times;
-              </button>
-            </div>
-            <div className={styles.previewFrameContainer}>
-              <iframe 
-                src={previewFile.url} 
-                className={styles.previewFrame}
-                title={`Preview of ${previewFile.name}`}
-                id="preview-iframe-display"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Delete Confirmation Modal */}
       {deleteFile && (
