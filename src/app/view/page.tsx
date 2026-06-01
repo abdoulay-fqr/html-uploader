@@ -42,7 +42,7 @@ function ViewerContent() {
         </div>
         
         <div className={styles.viewHeaderRight}>
-          <a href={url} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnPrimary}`} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+          <a href={`/api/raw?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnPrimary}`} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
             {/* External Link Icon */}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -56,7 +56,7 @@ function ViewerContent() {
       
       <div className={styles.viewFrameContainer}>
         <iframe 
-          src={url} 
+          src={`/api/raw?url=${encodeURIComponent(url)}`} 
           className={styles.viewFrame}
           title={`Preview of ${name}`}
         />
